@@ -18,16 +18,16 @@ And all this with a click of a button?
 
 Well, this template allows you to immediately start your JUCE C++ framework audio plugin project with a CMake-based project structure. It involves
 
-* clear repo structure
-* C++ 23 standard
-* effortless handling of third-party dependencies with the CPM package manager; use the C++ libraries you want together with JUCE
-* highest warning level and "treat warnings as errors"
-* ready-to-go unit test project with GoogleTest
+- clear repo structure
+- C++ 23 standard
+- effortless handling of third-party dependencies with the CPM package manager; use the C++ libraries you want together with JUCE
+- highest warning level and "treat warnings as errors"
+- ready-to-go unit test project with GoogleTest
 
 Additionally
 
-* continuous integration made easy with Github actions: build and run tests on the main branch and on every pull request
-* automatic clang-format on C++ files run on every commit; don't worry about code formatting anymore!
+- continuous integration made easy with Github actions: build and run tests on the main branch and on every pull request
+- automatic clang-format on C++ files run on every commit; don't worry about code formatting anymore!
 
 I am personally using this template all the time.
 
@@ -66,7 +66,7 @@ pre-commit install
 
 (for this you may need to install `pre-commit` with `pip`: `pip install pre-commit`).
 
-Don't forget to change "YourPluginName" to, well, your plugin name everywhere 😉
+Don't forget to change "driv3" to, well, your plugin name everywhere 😉
 
 ## How was this template built?
 

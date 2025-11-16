@@ -35,7 +35,11 @@ public:
   void getStateInformation(juce::MemoryBlock& destData) override;
   void setStateInformation(const void* data, int sizeInBytes) override;
 
+  std::unique_ptr<juce::AudioProcessorValueTreeState> apvts;
+  std::tuple<float, float> getRmsValue(const int channel) const;
 private:
+  static juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+  float inputRmsLevelLeft, inputRmsLevelRight, outputRmsLevelLeft, outputRmsLevelRight;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
 }  // namespace audio_plugin

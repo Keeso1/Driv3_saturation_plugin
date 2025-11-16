@@ -1,4 +1,4 @@
-#include <YourPluginName/PluginProcessor.h>
+#include <driv3/PluginProcessor.h>
 #include <gtest/gtest.h>
 
 namespace audio_plugin_test {

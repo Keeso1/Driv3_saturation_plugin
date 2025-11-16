@@ -1,5 +1,5 @@
-#include "YourPluginName/PluginEditor.h"
-#include "YourPluginName/PluginProcessor.h"
+#include "driv3/PluginEditor.h"
+#include "driv3/PluginProcessor.h"
 
 namespace audio_plugin {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
