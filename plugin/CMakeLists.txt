@@ -78,5 +78,15 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC JUCE_WEB_BROWSER=0 JUCE_USE_CU
 # This needs to be set up only for your projects, not 3rd party
 set_source_files_properties(${SOURCE_FILES} PROPERTIES COMPILE_OPTIONS "${PROJECT_WARNINGS_CXX}")
 
+# Post-build command to copy the VST3 plugin to the common VST3 folder
+add_custom_command(
+    TARGET ${PROJECT_NAME}_VST3
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_BINARY_DIR}/plugin/AudioPlugin_artefacts/$<CONFIG>/VST3/driv3.vst3"
+            "$ENV{COMMONPROGRAMFILES}/VST3/driv3.vst3"
+    COMMENT "Copying VST3 to common folder..."
+)
+
 # In Visual Studio this command provides a nice grouping of source files in "filters".
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
