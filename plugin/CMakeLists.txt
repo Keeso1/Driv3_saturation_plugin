@@ -29,10 +29,35 @@ juce_add_plugin(
   driv3 # change this
 )
 
+# Adds assets as BinaryData
+
+juce_add_binary_data(BinaryData 
+  SOURCES
+    resources/background_blur_filter.svg
+    resources/foreground_ui.svg
+    resources/gain_slider_thumb.svg
+    resources/gain_slider.svg
+    resources/mix_slider_thumb.svg
+    resources/mix_slider_filllayer.svg
+    resources/mix_slider_backgroundlayer.svg
+    resources/drive_slider_layer1.svg
+    resources/drive_slider_layer2.svg
+    resources/bypass_off_hover.svg
+    resources/bypass_off.svg
+    resources/bypass_on_hover.svg
+    resources/bypass_on.svg
+    resources/softclipOff.svg
+    resources/hardclipOff.svg
+    resources/fuzzclipOff.svg
+    resources/softclipOn.svg
+    resources/hardclipOn.svg
+    resources/fuzzclipOn.svg
+)
+
 # Sets the source files of the plugin project.
-set(SOURCE_FILES source/PluginEditor.cpp source/PluginProcessor.cpp)
+set(SOURCE_FILES source/PluginEditor.cpp source/PluginProcessor.cpp source/GainSliderLookAndFeel.cpp source/MixSliderLookAndFeel.cpp source/CustomLookAndFeel.cpp)
 # Optional; includes header files in the project file tree in Visual Studio
-set(HEADER_FILES ${INCLUDE_DIR}/PluginEditor.h ${INCLUDE_DIR}/PluginProcessor.h)
+set(HEADER_FILES ${INCLUDE_DIR}/PluginEditor.h ${INCLUDE_DIR}/PluginProcessor.h ${INCLUDE_DIR}/GainSliderLookAndFeel.h ${INCLUDE_DIR}/HorizontalMeter.h ${INCLUDE_DIR}/MixSliderLookAndFeel.h ${INCLUDE_DIR}/CustomLookAndFeel.h)
 target_sources(${PROJECT_NAME} PRIVATE ${SOURCE_FILES} ${HEADER_FILES})
 
 # Sets the include directories of the plugin project.
@@ -42,7 +67,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/in
 # If you use one of the additional modules, like the DSP module, you need to specify it here.
 target_link_libraries_system(${PROJECT_NAME} PUBLIC juce::juce_audio_utils)
 target_link_libraries(
-  ${PROJECT_NAME} PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags
+  ${PROJECT_NAME} PRIVATE BinaryData PUBLIC juce::juce_recommended_config_flags juce::juce_recommended_lto_flags
                          juce::juce_recommended_warning_flags
 )
 
