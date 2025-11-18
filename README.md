@@ -25,15 +25,13 @@ To build and run `Driv3 saturation plugin`, you will need the following:
   * macOS: Xcode 13 or newer (Apple Clang 13+). Your CI uses Xcode 16.2, so that's a known good version.
   * Linux: GCC 10 or newer, or Clang 12 or newer.
 - A build tool like Ninja, Make, or MSBuild (I use MSBuild version 17.14.23+b0019275e for .NET Framework)
+- Cmake 4.2.0 (https://cmake.org/download)
+- VSCode extensions: C/C++ extension and Cmake tools (https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack)
 
-Simple setup (this will install the necessary things except Cmake and VSCode extensions):
+**Simple setup** (this will install the necessary things __except Cmake and VSCode extensions__):
 * On Windows: Install Visual Studio 2022 with the "Desktop development with C++" workload and Git.
 * On macOS: Install the Xcode Command Line Tools and Git.
 * On Linux: Install build-essential, git, cmake, and the JUCE dependencies.
-
-These are also needed but not included in the simple setup:
-- Cmake 4.2.0 (https://cmake.org/download)
-- C/C++ extension and Cmake tools extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack)
 
 
 
