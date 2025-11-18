@@ -17,13 +17,17 @@
 
 To build and run `Driv3 saturation plugin`, you will need the following:
 
-### Prerequisites
+### Prerequisites (for VSCode)
 
-- **C++ Compiler:** A C++17 compatible compiler (e.g., MSVC for Windows, Clang for macOS/Linux).
-- **IDE:**
-  - **Windows:** Visual Studio 2022 (or newer).
-  - **macOS:** Xcode.
-  - **Linux:** A suitable C++ IDE (e.g., CLion, VS Code with C++ extensions).
+- A C++20 compatible compiler is required. Here are some common examples:
+  * Windows: Visual Studio 2019 (v16.10) or newer. Visual Studio 2022 is recommended.
+  * macOS: Xcode 13 or newer (Apple Clang 13+). Your CI uses Xcode 16.2, so that's a known good version.
+  * Linux: GCC 10 or newer, or Clang 12 or newer.
+
+- Cmake 4.2.0 (https://cmake.org/download)
+- C/C++ extension and Cmake tools extension (https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack)
+
+
 
 ### Building the Project
 
@@ -41,8 +45,8 @@ To build and run `Driv3 saturation plugin`, you will need the following:
 3.  Insert `Driv3 saturation plugin` as an effect or instrument on an audio track.
 
 ### As a Standalone Application
-
-Simply run the executable generated during the build process.
+In VSCode:
+- Ctrl + Shift + P > Run without debugging
 
 ## TODOs
 
