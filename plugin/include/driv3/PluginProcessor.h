@@ -1,6 +1,7 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
+#include "AnalyserComponent.h"
 
 namespace audio_plugin {
 class AudioPluginAudioProcessor : public juce::AudioProcessor {
@@ -37,9 +38,14 @@ public:
 
   std::unique_ptr<juce::AudioProcessorValueTreeState> apvts;
   std::tuple<float, float> getRmsValue(const int channel) const;
+
+  AnalyserComponent& getAnalyserComponent();
 private:
   static juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
   float inputRmsLevelLeft, inputRmsLevelRight, outputRmsLevelLeft, outputRmsLevelRight;
+  
+  AnalyserComponent analyserComponent;
+
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
 }  // namespace audio_plugin

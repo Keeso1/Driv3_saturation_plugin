@@ -78,12 +78,13 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
                                               int samplesPerBlock) {
   // Use this method as the place to do any pre-playback
   // initialisation that you need..
-  juce::ignoreUnused(sampleRate, samplesPerBlock);
+  analyserComponent.prepareToPlay(samplesPerBlock, sampleRate);
 }
 
 void AudioPluginAudioProcessor::releaseResources() {
   // When playback stops, you can use this as an opportunity to free up any
   // spare memory, etc.
+  analyserComponent.releaseResources();
 }
 
 bool AudioPluginAudioProcessor::isBusesLayoutSupported(
@@ -203,6 +204,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
           }
       }
   }
+  analyserComponent.getNextAudioBlock(juce::AudioSourceChannelInfo(buffer));
 }
 
 bool AudioPluginAudioProcessor::hasEditor() const {
@@ -242,6 +244,11 @@ std::tuple<float,float> AudioPluginAudioProcessor::getRmsValue(const int channel
         return std::make_tuple(inputRmsLevelRight, outputRmsLevelRight);
     }
     return std::make_tuple(0.0f, 0.0f);
+}
+
+AnalyserComponent& AudioPluginAudioProcessor::getAnalyserComponent()
+{
+    return analyserComponent;
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout AudioPluginAudioProcessor::createParameters()

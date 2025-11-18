@@ -5,6 +5,7 @@
 #include "CustomLookAndFeel.h"
 #include "MixSliderLookAndFeel.h"
 #include "HorizontalMeter.h"
+#include "AnalyserComponent.h"
 #include "GainSliderLookAndFeel.h"
 
 namespace audio_plugin {
@@ -25,6 +26,7 @@ private:
   // This reference is provided as a quick way for your editor to
   // access the processor object that created it.
   AudioPluginAudioProcessor& audioProcessor;
+  AnalyserComponent& analyserComponent;
 
   const int figmaWidth = 2000;
   const int figmaHeight = 1000;

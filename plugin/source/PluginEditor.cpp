@@ -1,11 +1,13 @@
 #include "driv3/PluginEditor.h"
 #include "driv3/PluginProcessor.h"
+#include "driv3/AnalyserComponent.h"
 #include "BinaryData.h"
 
 namespace audio_plugin {
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p),
+    analyserComponent(p.getAnalyserComponent()),
     softClipButton("SOFTCLIPBUTTON", juce::DrawableButton::ButtonStyle::ImageStretched),
     hardClipButton("HARDCLIPBUTTON", juce::DrawableButton::ButtonStyle::ImageStretched),
     fuzzClipButton("FUZZCLIPBUTTON", juce::DrawableButton::ButtonStyle::ImageStretched),
@@ -22,6 +24,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     // Start timer
     startTimerHz(24);
 
+    // Visualiser
+    addAndMakeVisible(analyserComponent);
     // Levelmeter input
     addAndMakeVisible(inputHorizontalMeterL);
     addAndMakeVisible(inputHorizontalMeterR);
@@ -140,6 +144,13 @@ void AudioPluginAudioProcessorEditor::timerCallback() // Gets called everytime t
     outputHorizontalMeterR.setLevel(std::get<1>(audioProcessor.getRmsValue(1)));
     outputHorizontalMeterL.repaint();
     outputHorizontalMeterR.repaint();
+
+    if (analyserComponent.nextFFTBlockReady.load())
+    {
+        analyserComponent.drawNextFrameOfSpectrum();
+        analyserComponent.nextFFTBlockReady.store(false);
+        analyserComponent.repaint();
+    }
 }
 
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics& g) {
@@ -170,6 +181,8 @@ void AudioPluginAudioProcessorEditor::resized() {
   
 
   float scaleFactor = (float)getWidth() / figmaWidth; // Result: 0.4
+
+  analyserComponent.setBounds(static_cast<int>(535 * scaleFactor), static_cast<int>(260 * scaleFactor), static_cast<int>(937 * scaleFactor), static_cast<int>(467 * scaleFactor));
 
   // Input rmsmeter
   inputHorizontalMeterL.setBounds(static_cast<int>(64 * scaleFactor), static_cast<int>(799 * scaleFactor), static_cast<int>(497 * scaleFactor), static_cast<int>(15 * scaleFactor));
