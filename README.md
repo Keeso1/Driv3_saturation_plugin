@@ -11,7 +11,7 @@
 ## Features
 
 - **Three saturation types:** Soft clip, Hard clip and custom Fuzz clip.
-- **Frequency visualisation:** Using the Juce fast fourier transformation class.
+- **Frequency visualisation:** Using the Juce fast fourier transform class.
 - **GUI designed in figma for retro aesthetic**
 
 ## Download
