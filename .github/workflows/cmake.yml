@@ -46,9 +46,9 @@ jobs:
         if: runner.os == 'Windows' && matrix.build_type == 'Release'
         run: |
           New-Item -Path ${{github.workspace}}/Driv3-windows -ItemType Directory
-          Copy-Item -Path ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/VST3/driv3.vst3 -Destination ${{github.workspace}}/Driv3-windows/ -Recurse
+          Copy-Item -Path ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/VST3/driv3.vst3/* -Destination ${{github.workspace}}/Driv3-windows/driv3.vst3 -Recurse
           Copy-Item -Path ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/Standalone/driv3.exe -Destination ${{github.workspace}}/Driv3-windows/driv3.exe
-          Compress-Archive -Path ${{github.workspace}}/Driv3-windows/* -DestinationPath ${{github.workspace}}/Driv3-windows.zip
+          Compress-Archive -Path ${{github.workspace}}/Driv3-windows/* -DestinationPath ${{github.workspace}}/Driv3-windows.zip -Recurse
       - name: Package macOS Artifacts
         if: runner.os == 'macOS' && matrix.build_type == 'Release'
         run: |
