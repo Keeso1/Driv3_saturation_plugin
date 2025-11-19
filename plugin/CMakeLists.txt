@@ -8,6 +8,12 @@ project(AudioPlugin VERSION 0.1.0)
 set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/driv3")
 
 # Adds a plugin target (that's basically what the Projucer does).
+if(WIN32)
+    set(VST3_COPY_ARGS VST3_COPY_DIR "$ENV{COMMONPROGRAMFILES}/VST3")
+else()
+    set(VST3_COPY_ARGS "")
+endif()
+
 juce_add_plugin(
   ${PROJECT_NAME}
   COMPANY_NAME
@@ -28,7 +34,7 @@ juce_add_plugin(
   PRODUCT_NAME
   driv3 # change this
   COPY_PLUGIN_AFTER_BUILD TRUE
-  VST3_COPY_DIR "$ENV{COMMONPROGRAMFILES}/VST3"
+  ${VST3_COPY_ARGS}
 )
 
 # Adds assets as BinaryData
