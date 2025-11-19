@@ -59,7 +59,7 @@ void CustomLookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int wi
         /*DBG("maximum= " << slider.getMaximum() << "minimum= " << slider.getMinimum());*/
         if (range > 0)
         {
-            proportion = (float)((slider.getValue() - slider.getMinimum()) / range);
+            proportion = static_cast<float>((slider.getValue() - slider.getMinimum()) / range);
         }
         /*DBG("proportion= " << proportion);
         DBG("fillBounds " << "aspectratio: " << fillBounds.getAspectRatio() << "x:" << fillBounds.getX() << "y:" << fillBounds.getY() << "w:" << fillBounds.getWidth() << "h: " << fillBounds.getHeight());*/

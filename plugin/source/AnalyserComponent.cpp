@@ -52,9 +52,9 @@ void AnalyserComponent::drawNextFrameOfSpectrum()
     auto maxdB = 0.0f;
     for (int i = 0; i < scopeSize; ++i)
     {
-        auto skewedProportionX = 1.0f - std::exp (std::log (1.0f - (float) i / (float) scopeSize) * 0.2f);
-        auto fftDataIndex = juce::jlimit (0, fftSize / 2, (int) (skewedProportionX * (float) fftSize * 0.5f));
-        auto level = juce::jmap (juce::jlimit (mindB, maxdB, juce::Decibels::gainToDecibels (fftData[fftDataIndex]) - juce::Decibels::gainToDecibels ((float) fftSize)),
+        auto skewedProportionX = 1.0f - std::exp (std::log (1.0f - static_cast<float>(i) / static_cast<float>(scopeSize)) * 0.2f);
+        auto fftDataIndex = juce::jlimit (0, fftSize / 2, static_cast<int>(skewedProportionX * static_cast<float>(fftSize) * 0.5f));
+        auto level = juce::jmap (juce::jlimit (mindB, maxdB, juce::Decibels::gainToDecibels (fftData[fftDataIndex]) - juce::Decibels::gainToDecibels (static_cast<float>(fftSize))),
             mindB,
             maxdB,
             0.0f,
@@ -69,10 +69,10 @@ void AnalyserComponent::drawFrame (juce::Graphics& g)
     {
         auto width = getLocalBounds().getWidth();
         auto height = getLocalBounds().getHeight();
-        g.drawLine ({ (float) juce::jmap (i - 1, 0, scopeSize - 1, 0, width),
-            juce::jmap (scopeData[i - 1], 0.0f, 1.0f, (float) height, 0.0f),
-            (float) juce::jmap (i, 0, scopeSize - 1, 0, width),
-            juce::jmap (scopeData[i], 0.0f, 1.0f, (float) height, 0.0f) });
+        g.drawLine ({ static_cast<float>(juce::jmap (i - 1, 0, scopeSize - 1, 0, width)),
+            juce::jmap (scopeData[i - 1], 0.0f, 1.0f, static_cast<float>(height), 0.0f),
+            static_cast<float>(juce::jmap (i, 0, scopeSize - 1, 0, width)),
+            juce::jmap (scopeData[i], 0.0f, 1.0f, static_cast<float>(height), 0.0f) });
     }
 }
 

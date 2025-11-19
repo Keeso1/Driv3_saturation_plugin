@@ -60,7 +60,7 @@ void MixSliderLookAndFeel::drawLinearSlider(juce::Graphics& g, int x, int y, int
         /*DBG("maximum= " << slider.getMaximum() << "minimum= " << slider.getMinimum());*/
         if (range > 0)
         {
-            proportion = (float)((slider.getValue() - slider.getMinimum()) / range);
+            proportion = static_cast<float>((slider.getValue() - slider.getMinimum()) / range);
         }
 
         float visibleFillHeight = (fillBounds.getY() + fillBounds.getHeight()) * proportion;
