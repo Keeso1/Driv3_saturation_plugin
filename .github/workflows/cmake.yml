@@ -46,18 +46,16 @@ jobs:
         if: runner.os == 'Windows' && matrix.build_type == 'Release'
         run: |
           New-Item -Path ${{github.workspace}}/Driv3-windows -ItemType Directory
-          Copy-Item -Path ${{github.workspace}}/build/AudioPlugin_artefacts/Release/VST3/driv3.vst3 -Destination ${{github.workspace}}/Driv3-windows/driv3.vst3
-          Copy-Item -Path ${{github.workspace}}/build/AudioPlugin_artefacts/Release/Standalone/driv3.exe -Destination ${{github.workspace}}/Driv3-windows/driv3.exe
+          Copy-Item -Path ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/VST3/driv3.vst3 -Destination ${{github.workspace}}/Driv3-windows/driv3.vst3
+          Copy-Item -Path ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/Standalone/driv3.exe -Destination ${{github.workspace}}/Driv3-windows/driv3.exe
           Compress-Archive -Path ${{github.workspace}}/Driv3-windows/* -DestinationPath ${{github.workspace}}/Driv3-windows.zip
-
       - name: Package macOS Artifacts
         if: runner.os == 'macOS' && matrix.build_type == 'Release'
         run: |
           mkdir -p ${{github.workspace}}/Driv3-macOS/VST3
-          cp -R ${{github.workspace}}/build/AudioPlugin_artefacts/Release/VST3/driv3.vst3 ${{github.workspace}}/Driv3-macOS/VST3/
-          cp -R ${{github.workspace}}/build/AudioPlugin_artefacts/Release/Standalone/driv3.app ${{github.workspace}}/Driv3-macOS/
+          cp -R ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/VST3/driv3.vst3 ${{github.workspace}}/Driv3-macOS/VST3/
+          cp -R ${{github.workspace}}/build/plugin/AudioPlugin_artefacts/Release/Standalone/driv3.app ${{github.workspace}}/Driv3-macOS/
           zip -r ${{github.workspace}}/Driv3-macOS.zip ${{github.workspace}}/Driv3-macOS
-
       - name: Upload Artifacts
         if: matrix.build_type == 'Release'
         uses: actions/upload-artifact@v4
