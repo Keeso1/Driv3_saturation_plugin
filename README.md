@@ -16,7 +16,7 @@
 
 ## Download
 - Go to Releases and download the zipped file for your operating system!
-- 
+
 ## Getting Started with cloned project
 
 To build and run `Driv3 saturation plugin`, you will need the following:
