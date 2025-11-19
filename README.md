@@ -14,7 +14,10 @@
 - **Frequency visualisation:** Using the Juce fast fourier transformation class.
 - **GUI designed in figma for retro aesthetic**
 
-## Getting Started
+## Download
+- Go to Releases and download the zipped file for your operating system!
+- 
+## Getting Started with cloned project
 
 To build and run `Driv3 saturation plugin`, you will need the following:
 
@@ -44,7 +47,6 @@ To build and run `Driv3 saturation plugin`, you will need the following:
 (If you want to build the release version run "cmake --build build --config Release")
 
 ## Usage
-
 ### As a VST3 Plugin
 
 1.  The generated `.vst3` file should automatically be copied to your DAW's VST3 plugin folder (e.g., `C:\Program Files\Common Files\VST3` on Windows, `/Library/Audio/Plug-Ins/VST3` on macOS).
