@@ -132,7 +132,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   auto inputDb = apvts->getRawParameterValue("INPUT")->load();
   auto bypass = apvts->getRawParameterValue("BYPASS")->load();
 
-  if (!bypass)
+  if (bypass < 0.5f)
   {
       // Convert the dB value to a linear gain multiplier
       auto driveGain = juce::Decibels::decibelsToGain(driveDb);
@@ -157,7 +157,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
               float drySample = channelData[sample];
               float wetSample = drySample; //Apply inputgain TODO: Check if this still updates the RMSlevelreader.
 
-              switch ((int)saturationType) {
+              switch (static_cast<int>(saturationType)) {
                   case 0: // Soft
                   {
                       wetSample = std::tanh(wetSample * driveGain);
@@ -173,7 +173,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                   case 2: 
                   {
                       float drive_var = driveGain;
-                      if (drive_var == 0.00) drive_var = 0.01f;
+                      if (drive_var == 0.00f) drive_var = 0.01f;
                       wetSample = (drive_var * wetSample) / (drive_var * std::abs(wetSample) + 1); // Custom fuzz: f(x) = (a * x) / (a * |x| + 1)
                       break;
                   }
