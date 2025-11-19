@@ -57,13 +57,6 @@ To build and run `Driv3 saturation plugin`, you will need the following:
 In VSCode:
 - Ctrl + Shift + P > Run without debugging
 
-## TODOs
-
-- Fix slider bounds so that the sliderthumb is correctly positioned and stays within bounds.
-- Add effects to the background to make it look more realistic.
-- Add light beam that moves across the screen. (Could be animation or a gif).
-- Add presetbrowser and ability to save presets.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to fork the repository, make your changes, and submit a pull request.
