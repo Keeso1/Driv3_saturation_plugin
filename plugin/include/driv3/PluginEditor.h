@@ -20,7 +20,6 @@ public:
   void timerCallback() override;
 
 private:
-  std::unique_ptr<juce::ResizableCornerComponent> resizableCorner;
   std::unique_ptr<juce::ComponentBoundsConstrainer> constrainer;
 
   // This reference is provided as a quick way for your editor to

@@ -87,7 +87,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     softClipButton.setClickingTogglesState(true);
     softClipButton.setRadioGroupId(1);
     softClipButton.setToggleState(satParam->getValue() == 0.0f, juce::dontSendNotification);
-    softClipButton.onClick = [this, satParam] { satParam->setValueNotifyingHost(0.0f); };
+    softClipButton.onClick = [satParam] { satParam->setValueNotifyingHost(0.0f); };
 
     // Hardclip Button
     hardClipButton.setImages(hardClipOff.get(), nullptr, nullptr, nullptr, hardClipOn.get());
@@ -95,7 +95,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     hardClipButton.setRadioGroupId(1);
     hardClipButton.setClickingTogglesState(true);
     hardClipButton.setToggleState(satParam->getValue() == 0.5f, juce::dontSendNotification);
-    hardClipButton.onClick = [this, satParam] { satParam->setValueNotifyingHost(0.5f); };
+    hardClipButton.onClick = [satParam] { satParam->setValueNotifyingHost(0.5f); };
 
     // Fuzzclip Button
     fuzzClipButton.setImages(fuzzClipOff.get(), nullptr, nullptr, nullptr, fuzzClipOn.get());
@@ -103,7 +103,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     fuzzClipButton.setRadioGroupId(1);
     fuzzClipButton.setClickingTogglesState(true);
     fuzzClipButton.setToggleState(satParam->getValue() == 1.0f, juce::dontSendNotification);
-    fuzzClipButton.onClick = [this, satParam] { satParam->setValueNotifyingHost(1.0f); };
+    fuzzClipButton.onClick = [satParam] { satParam->setValueNotifyingHost(1.0f); };
 
     // Bypass Button
     bypassAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(*audioProcessor.apvts, "BYPASS", bypassButton);
@@ -180,7 +180,7 @@ void AudioPluginAudioProcessorEditor::resized() {
       resizableCorner->setBounds(getWidth() - 16, getHeight() - 16, 16, 16);
   
 
-  float scaleFactor = (float)getWidth() / figmaWidth; // Result: 0.4
+  float scaleFactor = static_cast<float>(getWidth()) / figmaWidth; // Result: 0.4
 
   analyserComponent.setBounds(static_cast<int>(535 * scaleFactor), static_cast<int>(260 * scaleFactor), static_cast<int>(937 * scaleFactor), static_cast<int>(467 * scaleFactor));
 

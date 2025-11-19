@@ -2,9 +2,10 @@ name: CMake
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    tags: ["v*"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -13,39 +14,95 @@ jobs:
         os: [macos-14, windows-latest]
         build_type: [Debug, Release]
 
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: List Xcode installations
-      if: matrix.os == 'macos-14'
-      run: sudo ls -1 /Applications | grep "Xcode"
-    - name: Select Xcode 16.2
-      if: matrix.os == 'macos-14'
-      run: sudo xcode-select -s /Applications/Xcode_16.2.0.app/Contents/Developer
-    - uses: actions/checkout@v4
+      - name: List Xcode installations
+        if: matrix.os == 'macos-14'
+        run: sudo ls -1 /Applications | grep "Xcode"
+      - name: Select Xcode 16.2
+        if: matrix.os == 'macos-14'
+        run: sudo xcode-select -s /Applications/Xcode_16.2.0.app/Contents/Developer
+      - uses: actions/checkout@v4
 
-    - name: Cache dependencies
-      id: cache-libs
-      uses: actions/cache@v4
-      with:
-        path: ${{github.workspace}}
-        key: libs
+      - name: Cache dependencies
+        id: cache-libs
+        uses: actions/cache@v4
+        with:
+          path: ${{github.workspace}}
+          key: libs
 
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -S . -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - name: Configure CMake
+        run: cmake -S . -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }}
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{ matrix.build_type }}
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{ matrix.build_type }}
+      - name: Test
+        working-directory: ${{github.workspace}}/build
+        run: ctest -C ${{ matrix.build_type }}
 
+      - name: Package Windows Artifacts
+        if: runner.os == 'Windows' && matrix.build_type == 'Release'
+        run: |
+          New-Item -Path ${{github.workspace}}/Driv3-windows -ItemType Directory
+          Copy-Item -Path ${{github.workspace}}/build/AudioPlugin_artefacts/Release/VST3/driv3.vst3 -Destination ${{github.workspace}}/Driv3-windows/driv3.vst3
+          Copy-Item -Path ${{github.workspace}}/build/AudioPlugin_artefacts/Release/Standalone/driv3.exe -Destination ${{github.workspace}}/Driv3-windows/driv3.exe
+          Compress-Archive -Path ${{github.workspace}}/Driv3-windows/* -DestinationPath ${{github.workspace}}/Driv3-windows.zip
+
+      - name: Package macOS Artifacts
+        if: runner.os == 'macOS' && matrix.build_type == 'Release'
+        run: |
+          mkdir -p ${{github.workspace}}/Driv3-macOS/VST3
+          cp -R ${{github.workspace}}/build/AudioPlugin_artefacts/Release/VST3/driv3.vst3 ${{github.workspace}}/Driv3-macOS/VST3/
+          cp -R ${{github.workspace}}/build/AudioPlugin_artefacts/Release/Standalone/driv3.app ${{github.workspace}}/Driv3-macOS/
+          zip -r ${{github.workspace}}/Driv3-macOS.zip ${{github.workspace}}/Driv3-macOS
+
+      - name: Upload Artifacts
+        if: matrix.build_type == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Driv3-${{ runner.os }}
+          path: ${{github.workspace}}/Driv3-${{ runner.os }}.zip
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Windows Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/Driv3-Windows/Driv3-windows.zip
+          asset_name: Driv3-windows.zip
+          asset_content_type: application/zip
+
+      - name: Upload macOS Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/Driv3-macOS/Driv3-macOS.zip
+          asset_name: Driv3-macOS.zip
+          asset_content_type: application/zip
