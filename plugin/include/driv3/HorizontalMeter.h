@@ -28,7 +28,7 @@ namespace Gui {
             g.fillRect(bounds.removeFromLeft(scaledX));
 
         }
-        void setLevel(const float value) { level = value; };
+        void setLevel(const float value) { level = value; }
     private:
         float level = -60.0f;
     };
