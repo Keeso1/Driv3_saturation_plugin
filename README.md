@@ -6,7 +6,7 @@
 
 ## Overview
 
-`Driv3` is a modern C++17 audio saturation plugin developed using the JUCE framework. It is designed to function as both a VST3 plugin for seamless integration into Digital Audio Workstations (DAWs) and a standalone application for independent use.
+`Driv3` is a modern C++20 audio saturation plugin developed using the JUCE framework. It is designed to function as both a VST3 plugin for seamless integration into Digital Audio Workstations (DAWs) and a standalone application for independent use.
 
 ## Features
 
